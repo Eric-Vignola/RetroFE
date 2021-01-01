@@ -146,9 +146,9 @@ if args.os == 'windows':
 #      os.path.join(gstreamer_path, 'lib/gstreamer-1.0/*.dll'),
 #      os.path.join(gstreamer_path, 'bin/*.dll'),
 #      os.path.join(third_party_path, 'SDL2-2.0.3', 'lib', 'x86', r'*.dll'),
-#      os.path.join(third_party_path, 'SDL2_image-2.0.0', 'lib', 'x86', '*.dll'),
-#      os.path.join(third_party_path, 'SDL2_mixer-2.0.0', 'lib', 'x86', '*.dll'),
-#      os.path.join(third_party_path, 'SDL2_ttf-2.0.12', 'lib', 'x86', '*.dll')
+#      os.path.join(third_party_path, 'SDL2_image-2.0.5', 'lib', 'x86', '*.dll'),
+#      os.path.join(third_party_path, 'SDL2_mixer-2.0.4', 'lib', 'x86', '*.dll'),
+#      os.path.join(third_party_path, 'SDL2_ttf-2.0.15', 'lib', 'x86', '*.dll')
 #    ]
 #    
 #    # copy third party libraries

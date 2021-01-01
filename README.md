@@ -148,11 +148,11 @@ Download the source code
 
 Setup Environment (to setup necessary variables and paths to compile in visual studio)
 
-	cd retrofe
+	cd RetroFE
 
 Generate visual studio solution files
 
-	cmake RetroFE/Source -BRetroFE/Build -DGSTREAMER_ROOT=C:\gstreamer\1.0\x86
+	cmake -B RetroFE/Build -D GSTREAMER_ROOT=C:\gstreamer\1.0\msvc_x86 RetroFE/Source
   
 Compile RetroFE and create a full environment by running the following commands
 

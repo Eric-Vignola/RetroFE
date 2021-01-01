@@ -69,15 +69,15 @@ sudo apt-get install -y tortoisehg g++ cmake dos2unix
   # sdl_url="${url}/release/${sdl}.tar.gz"
   # sdl_config='--host=armv7l-raspberry-linux-gnueabihf --disable-pulseaudio --disable-esd --disable-video-mir --disable-video-wayland --disable-video-x11 --disable-video-opengl'
 
-  image="SDL2_image-2.0.0"
+  image="SDL2_image-2.0.5"
   image_url="${url}/projects/SDL_image/release/${image}.tar.gz"
   image_config=""
 
-  mixer="SDL2_mixer-2.0.0"
+  mixer="SDL2_mixer-2.0.4"
   mixer_url="${url}/projects/SDL_mixer/release/${mixer}.tar.gz"
   mixer_config=""
 
-  ttf="SDL2_ttf-2.0.12"
+  ttf="SDL2_ttf-2.0.15"
   ttf_url="${url}/projects/SDL_ttf/release/${ttf}.tar.gz"
   ttf_config=""
 
