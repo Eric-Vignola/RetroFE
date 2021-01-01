@@ -131,19 +131,16 @@ Copy your live RetroFE system to any folder of your choosing:
 
 ## Install libraries ##
 	Install Python 2.7
-	Install sphinx with python
-	Install visual studio 2012
-	Install Microsoft Windows SDK for Windows 7 and .net Framework 4 http://www.microsoft.com/en-us/download/details.aspx?id=8279
-	Install cmake
-	Install tortoisehg
-	Install 7zip
-	Install gstreamer and gstreamer-devel to c:/gstreamer(x86, not 64 bit!) from http://gstreamer.freedesktop/org/data/pkg/windows/1.4.0
+	Install Visual Studio 2015
+	Install cmake from https://cmake.org/
+	Install git
+	Install gstreamer and gstreamer-devel (x86, not 64 bit!) to c:\gstreamer from https://gstreamer.freedesktop.org/download/
 
 ## Download and compile the source code ##
 
 Download the source code
 
-	hg clone https://phulshof@bitbucket.org/phulshof/retrofe
+	git clone https://github.com/phulshof/RetroFE.git
 
 
 Setup Environment (to setup necessary variables and paths to compile in visual studio)
