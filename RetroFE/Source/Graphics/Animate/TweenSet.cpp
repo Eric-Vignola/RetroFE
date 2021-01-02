@@ -61,5 +61,5 @@ Tween *TweenSet::getTween(unsigned int index)
 
 unsigned int TweenSet::size()
 {
-    return set_.size();
+    return static_cast<int>(set_.size());
 }

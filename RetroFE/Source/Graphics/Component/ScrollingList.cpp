@@ -108,7 +108,7 @@ void ScrollingList::setItems( std::vector<Item *> *items )
     items_ = items;
     if ( items_ )
     {
-        itemIndex_ = loopDecrement( 0, selectedOffsetIndex_, items_->size( ) );
+        itemIndex_ = loopDecrement( 0, selectedOffsetIndex_, static_cast<int>(items_->size( )) );
     }
 }
 
@@ -162,7 +162,7 @@ void ScrollingList::allocateSpritePoints( )
 
     for ( unsigned int i = 0; i < scrollPoints_->size( ); ++i )
     {
-        unsigned int index  = loopIncrement( itemIndex_, i, items_->size( ) );
+        unsigned int index  = loopIncrement( itemIndex_, i, static_cast<int>(items_->size( )) );
         Item *item = items_->at( index );
 
         Component *old = components_.at( i );
@@ -208,26 +208,26 @@ void ScrollingList::setPoints( std::vector<ViewInfo *> *scrollPoints, std::vecto
 
     if ( scrollPoints )
     {
-        size = scrollPoints_->size( );
+        size = static_cast<int>(scrollPoints_->size( ));
     }
     components_.resize( size );
 
     if ( items_ )
     {
-        itemIndex_ = loopDecrement( 0, selectedOffsetIndex_, items_->size( ) );
+        itemIndex_ = loopDecrement( 0, selectedOffsetIndex_, static_cast<int>(items_->size( )) );
     }
 }
 
 
 unsigned int ScrollingList::getScrollOffsetIndex( )
 {
-    return loopIncrement( itemIndex_, selectedOffsetIndex_, items_->size( ) );
+    return loopIncrement( itemIndex_, selectedOffsetIndex_, static_cast<int>(items_->size( )) );
 }
 
 
 void ScrollingList::setScrollOffsetIndex( unsigned int index )
 {
-    itemIndex_ = loopDecrement( index, selectedOffsetIndex_, items_->size( ) );
+    itemIndex_ = loopDecrement( index, selectedOffsetIndex_, static_cast<int>(items_->size( )) );
 }
 
 
@@ -245,11 +245,11 @@ Item *ScrollingList::getItemByOffset( int offset )
     unsigned int index = getSelectedIndex( );
     if ( offset >= 0 )
     {
-        index = loopIncrement( index, offset, items_->size( ) );
+        index = loopIncrement( index, offset, static_cast<int>(items_->size( )) );
     }
     else
     {
-        index = loopDecrement( index, offset*-1, items_->size( ) );
+        index = loopDecrement( index, offset*-1, static_cast<int>(items_->size( )) );
     }
     
     return items_->at( index );
@@ -260,21 +260,21 @@ Item *ScrollingList::getItemByOffset( int offset )
 Item *ScrollingList::getSelectedItem( )
 {
     if ( !items_ || items_->size( ) == 0 ) return NULL;
-    return items_->at( loopIncrement( itemIndex_, selectedOffsetIndex_, items_->size( ) ) );
+    return items_->at( loopIncrement( itemIndex_, selectedOffsetIndex_, static_cast<int>(items_->size( )) ) );
 }
 
 
 void ScrollingList::pageUp( )
 {
     if ( components_.size( ) == 0 ) return;
-    itemIndex_ = loopDecrement( itemIndex_, components_.size( ), items_->size( ) );
+    itemIndex_ = loopDecrement( itemIndex_, static_cast<int>(components_.size( )), static_cast<int>(items_->size( )) );
 }
 
 
 void ScrollingList::pageDown( )
 {
     if ( components_.size( ) == 0 ) return;
-    itemIndex_ = loopIncrement( itemIndex_, components_.size( ), items_->size( ) );
+    itemIndex_ = loopIncrement( itemIndex_, static_cast<int>(components_.size( )), static_cast<int>(items_->size( )) );
 }
 
 
@@ -310,11 +310,11 @@ void ScrollingList::letterChange( bool increment )
         unsigned int index = 0;
         if ( increment )
         {
-            index = loopIncrement( itemIndex_, i, items_->size( ) );
+            index = loopIncrement( itemIndex_, i, static_cast<int>(items_->size( )) );
         }
         else
         {
-            index = loopDecrement( itemIndex_, i, items_->size( ) );
+            index = loopDecrement( itemIndex_, i, static_cast<int>(items_->size( )) );
         }
 
         std::string endname = items_->at( (index+selectedOffsetIndex_ ) % items_->size( ) )->lowercaseFullTitle( );
@@ -338,7 +338,7 @@ void ScrollingList::letterChange( bool increment )
 
             for ( unsigned int i = 0; i < items_->size( ); ++i )
             {
-                unsigned int index = loopDecrement( itemIndex_, i, items_->size( ) );
+                unsigned int index = loopDecrement( itemIndex_, i, static_cast<int>(items_->size( )) );
 
                 std::string endname = items_->at( (index+selectedOffsetIndex_ ) % items_->size( ) )->lowercaseFullTitle( );
 
@@ -346,14 +346,14 @@ void ScrollingList::letterChange( bool increment )
                 if ((isalpha(startname[0] ) ^ isalpha(endname[0] ) ) ||
                     (isalpha(startname[0] ) && isalpha(endname[0] ) && startname[0] != endname[0] ) )
                 {
-                    itemIndex_ = loopIncrement( index,1,items_->size( ) );
+                    itemIndex_ = loopIncrement( index,1, static_cast<int>(items_->size( )) );
                     break;
                 }
             }
         }
         else
         {
-            itemIndex_ = loopIncrement( itemIndex_,1,items_->size( ) );
+            itemIndex_ = loopIncrement( itemIndex_,1, static_cast<int>(items_->size( )) );
         }
     }
 }
@@ -384,11 +384,11 @@ void ScrollingList::subChange( bool increment )
         unsigned int index = 0;
         if ( increment )
         {
-            index = loopIncrement( itemIndex_, i, items_->size( ) );
+            index = loopIncrement( itemIndex_, i, static_cast<int>(items_->size( )) );
         }
         else
         {
-            index = loopDecrement( itemIndex_, i, items_->size( ) );
+            index = loopDecrement( itemIndex_, i, static_cast<int>(items_->size( )) );
         }
 
         std::string endname = items_->at( (index+selectedOffsetIndex_ ) % items_->size( ) )->collectionInfo->lowercaseName( );
@@ -410,20 +410,20 @@ void ScrollingList::subChange( bool increment )
 
             for ( unsigned int i = 0; i < items_->size( ); ++i )
             {
-                unsigned int index = loopDecrement( itemIndex_, i, items_->size( ) );
+                unsigned int index = loopDecrement( itemIndex_, i, static_cast<int>(items_->size( )) );
 
                 std::string endname = items_->at( (index+selectedOffsetIndex_ ) % items_->size( ) )->collectionInfo->lowercaseName( );
 
                 if (startname != endname)
                 {
-                    itemIndex_ = loopIncrement( index,1,items_->size( ) );
+                    itemIndex_ = loopIncrement( index,1, static_cast<int>(items_->size( )) );
                     break;
                 }
             }
         }
         else
         {
-            itemIndex_ = loopIncrement( itemIndex_,1,items_->size( ) );
+            itemIndex_ = loopIncrement( itemIndex_,1, static_cast<int>(items_->size( )) );
         }
     }
 }
@@ -639,21 +639,21 @@ void ScrollingList::update( float dt )
 unsigned int ScrollingList::getSelectedIndex( )
 {
     if ( !items_ ) return 0;
-    return loopIncrement( itemIndex_, selectedOffsetIndex_, items_->size( ) );
+    return loopIncrement( itemIndex_, selectedOffsetIndex_, static_cast<int>(items_->size( )) );
 }
 
 
 void ScrollingList::setSelectedIndex( unsigned int index )
 {
      if ( !items_ ) return;
-     itemIndex_ = loopDecrement( index, selectedOffsetIndex_, items_->size( ) );
+     itemIndex_ = loopDecrement( index, selectedOffsetIndex_, static_cast<int>(items_->size( )) );
 }
 
 
 unsigned int ScrollingList::getSize( )
 {
     if ( !items_ ) return 0;
-    return items_->size( );
+    return static_cast<int>(items_->size( ));
 }
 
 
@@ -1044,17 +1044,17 @@ void ScrollingList::scroll( bool forward )
     // Replace the item that's scrolled out
     if ( forward )
     {
-        Item *i    = items_->at( loopIncrement( itemIndex_, scrollPoints_->size(  ), items_->size(  ) ) );
-        itemIndex_ = loopIncrement( itemIndex_, 1, items_->size(  ) );
+        Item *i    = items_->at( loopIncrement( itemIndex_, static_cast<int>(scrollPoints_->size(  )), static_cast<int>(items_->size(  )) ) );
+        itemIndex_ = loopIncrement( itemIndex_, 1, static_cast<int>(items_->size(  )) );
         deallocateTexture( 0 );
         allocateTexture( 0, i );
     }
     else
     {
-        Item *i    = items_->at( loopDecrement( itemIndex_, 1, items_->size(  ) ) );
-        itemIndex_ = loopDecrement( itemIndex_, 1, items_->size(  ) );
-        deallocateTexture( loopDecrement( 0, 1, components_.size(  ) ) );
-        allocateTexture( loopDecrement( 0, 1, components_.size(  ) ), i );
+        Item *i    = items_->at( loopDecrement( itemIndex_, 1, static_cast<int>(items_->size(  )) ) );
+        itemIndex_ = loopDecrement( itemIndex_, 1, static_cast<int>(items_->size(  )) );
+        deallocateTexture( loopDecrement( 0, 1, static_cast<int>(components_.size(  )) ) );
+        allocateTexture( loopDecrement( 0, 1, static_cast<int>(components_.size(  )) ), i );
     }
 
     // Set the animations
@@ -1063,11 +1063,11 @@ void ScrollingList::scroll( bool forward )
         unsigned int nextI;
         if ( forward )
         {
-            nextI = loopDecrement( i, 1, scrollPoints_->size(  ) );
+            nextI = loopDecrement( i, 1, static_cast<int>(scrollPoints_->size(  )) );
         }
         else
         {
-            nextI = loopIncrement( i, 1, scrollPoints_->size(  ) );
+            nextI = loopIncrement( i, 1, static_cast<int>(scrollPoints_->size(  )) );
         }
 
         Component *c = components_.at( i );
@@ -1082,9 +1082,9 @@ void ScrollingList::scroll( bool forward )
     Component *c = components_.at( 0 );
     if ( forward )
     {
-        for ( unsigned int i = scrollPoints_->size(  ); i > 0; i-- )
+        for ( unsigned int i = static_cast<int>(scrollPoints_->size(  )); i > 0; i-- )
         {
-            unsigned int prevI = loopDecrement( i, 1, scrollPoints_->size(  ) );
+            unsigned int prevI = loopDecrement( i, 1, static_cast<int>(scrollPoints_->size(  )) );
             Component *store   = components_.at( prevI );
             components_[prevI] = c;
             c                  = store;
@@ -1095,7 +1095,7 @@ void ScrollingList::scroll( bool forward )
     {
         for ( unsigned int i = 0; i < scrollPoints_->size(  ); i++ )
         {
-            unsigned int nextI = loopIncrement( i, 1, scrollPoints_->size(  ) );
+            unsigned int nextI = loopIncrement( i, 1, static_cast<int>(scrollPoints_->size(  )) );
             Component *store   = components_.at( nextI );
             components_[nextI] = c;
             c                  = store;

@@ -1744,7 +1744,7 @@ CollectionInfo *RetroFE::getCollection(std::string collectionName)
         std::string basename = (std::string::npos == position)? file : file.substr( 0, position );
 
         std::string comparator = ".sub";
-        int start = file.length( ) - comparator.length( );
+        int start = static_cast<int>(file.length( ) - comparator.length( ));
 
         if ( start >= 0 )
         {

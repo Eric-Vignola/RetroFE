@@ -64,5 +64,5 @@ TweenSet *Animation::tweenSet(unsigned int index)
 
 unsigned int Animation::size()
 {
-    return animationVector_.size();
+    return static_cast<int>(animationVector_.size());
 }
