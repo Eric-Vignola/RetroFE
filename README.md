@@ -130,8 +130,8 @@ Copy your live RetroFE system to any folder of your choosing:
 ** Visit the [RetroFE downloads](http://retrofe.com/download.php) page to download a precompiled version if you do not want to compile your own. **
 
 ## Install libraries ##
-	Install Python 2.7
-	Install Visual Studio 2015
+	Install Python 3
+	Install Visual Studio 2019
 	Install cmake from https://cmake.org/
 	Install git
 	Install gstreamer and gstreamer-devel (x86, not 64 bit!) to c:\gstreamer from https://gstreamer.freedesktop.org/download/
@@ -149,12 +149,12 @@ Setup Environment (to setup necessary variables and paths to compile in visual s
 
 Generate visual studio solution files
 
-	cmake -B RetroFE/Build -D GSTREAMER_ROOT=C:\gstreamer\1.0\msvc_x86 RetroFE/Source
+	cmake -A Win32 -B .\RetroFE\Build -D GSTREAMER_ROOT=C:\gstreamer\1.0\msvc_x86 -S .\RetroFE\Source
   
 Compile RetroFE and create a full environment by running the following commands
 
-	cmake --build RetroFE/Build --config Release
-	python Scripts\Package.py --os=windows --build=full
+	cmake --build .\RetroFE\Build  --config Release
+	python Scripts\Package.py --os=windows --build=full --gstreamer_path=C:\gstreamer\1.0\msvc_x86
 
 Copy your live RetroFE system to any folder of your choosing. files can be found in Artifacts\windows\RetroFE
 
