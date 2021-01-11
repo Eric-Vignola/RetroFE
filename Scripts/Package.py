@@ -303,6 +303,10 @@ if args.os == 'windows':
             shutil.copy2(dll, core_path)
             print("DLL COPY: " + dll)
             
+        for dll in sorted(glob.glob('%s/lib/gstreamer-1.0/*.dll'%gstreamer_path)):
+            shutil.copy2(dll, core_path)
+            print("DLL COPY: " + dll)            
+            
         third_party_path = os.path.join(base_path, 'RetroFE', 'ThirdParty')
         for dll in sorted(glob.glob('%s/SDL*/**/*.dll'%third_party_path, recursive=True)):
             if os.path.split(dll)[-1] in sdl_dll:
