@@ -298,20 +298,31 @@ if args.os == 'windows':
                          'usrsctp-1.dll',
                          'z-1.dll']
         
-        for dll in gstreamer_dll:
-            dll = os.path.join(gstreamer_path, 'bin', dll)
-            shutil.copy2(dll, core_path)
-            print("DLL COPY: " + dll)
-            
-        for dll in sorted(glob.glob('%s/lib/gstreamer-1.0/*.dll'%gstreamer_path)):
-            shutil.copy2(dll, core_path)
-            print("DLL COPY: " + dll)            
-            
+        gstreamer_lib_dll = ['gstcoreelements.dll',
+                             'gstd3d11.dll',
+                             'gstisomp4.dll',
+                             'gstplayback.dll',
+                             'gsttypefindfunctions.dll',
+                             'gstvideoconvert.dll']   
+        
         third_party_path = os.path.join(base_path, 'RetroFE', 'ThirdParty')
         for dll in sorted(glob.glob('%s/SDL*/**/*.dll'%third_party_path, recursive=True)):
             if os.path.split(dll)[-1] in sdl_dll:
                 shutil.copy2(dll, core_path)
-                print("DLL COPY: " + dll)                
+                print("COPY SDL DLL: " + dll)  
+                
+        
+        for dll in gstreamer_dll:
+            dll = os.path.join(gstreamer_path, 'bin', dll)
+            shutil.copy2(dll, core_path)
+            print("COPY GSTREAMER DLL: " + dll)
+            
+        for dll in gstreamer_lib_dll:
+            dll = '%s/lib/gstreamer-1.0/%s.dll'%(gstreamer_path,dll)
+            shutil.copy2(dll, core_path)
+            print("COPY GSTREAMER DLL: " + dll)           
+            
+              
                 
                             
         
