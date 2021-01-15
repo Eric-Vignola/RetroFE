@@ -318,7 +318,7 @@ if args.os == 'windows':
             print("COPY GSTREAMER DLL: " + dll)
             
         for dll in gstreamer_lib_dll:
-            dll = '%s/lib/gstreamer-1.0/%s.dll'%(gstreamer_path,dll)
+            dll = '%s/lib/gstreamer-1.0/%s'%(gstreamer_path,dll)
             shutil.copy2(dll, core_path)
             print("COPY GSTREAMER DLL: " + dll)           
             
