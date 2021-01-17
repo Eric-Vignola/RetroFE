@@ -297,12 +297,14 @@ if args.os == 'windows':
                             'bin/srtp2-1.dll',
                             'bin/usrsctp-1.dll',
                             'bin/z-1.dll',
+                            'lib/gstreamer-1.0/gstavi.dll',
                             'lib/gstreamer-1.0/gstcoreelements.dll',
                             'lib/gstreamer-1.0/gstd3d11.dll',
                             'lib/gstreamer-1.0/gstisomp4.dll',
                             'lib/gstreamer-1.0/gstplayback.dll',
                             'lib/gstreamer-1.0/gsttypefindfunctions.dll',
-                            'lib/gstreamer-1.0/gstvideoconvert.dll']
+                            'lib/gstreamer-1.0/gstvideoconvert.dll',
+                            'lib/gstreamer-1.0/gstvideoparsersbad.dll']
 
 
         for dll in glob.glob('%s/*.dll'%core_path):
