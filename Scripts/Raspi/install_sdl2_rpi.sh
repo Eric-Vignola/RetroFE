@@ -31,13 +31,13 @@ url="http://www.libsdl.org"
 sdl="SDL2-2.0.3"
 sdl_url="${url}/release/${sdl}.tar.gz"
 
-image="SDL2_image-2.0.5"
+image="SDL2_image-2.0.0"
 image_url="${url}/projects/SDL_image/release/${image}.tar.gz"
 
-mixer="SDL2_mixer-2.0.4"
+mixer="SDL2_mixer-2.0.0"
 mixer_url="${url}/projects/SDL_mixer/release/${mixer}.tar.gz"
 
-ttf="SDL2_ttf-2.0.15"
+ttf="SDL2_ttf-2.0.12"
 ttf_url="${url}/projects/SDL_ttf/release/${ttf}.tar.gz"
 
 get () {

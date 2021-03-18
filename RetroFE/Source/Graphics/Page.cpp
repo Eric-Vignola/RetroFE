@@ -39,10 +39,13 @@ Page::Page(Configuration &config, int layoutWidth, int layoutHeight)
     , highlightSoundChunk_(NULL)
     , selectSoundChunk_(NULL)
     , minShowTime_(0)
-	, layoutWidth_(layoutWidth)
-	, layoutHeight_(layoutHeight)
     , jukebox_(false)
 {
+    for (int i = 0; i < SDL::getNumScreens(); i++)
+    {
+        layoutWidth_.push_back(layoutWidth);
+        layoutHeight_.push_back(layoutHeight);
+    }
 }
 
 
@@ -198,7 +201,7 @@ void Page::pushMenu(ScrollingList *s, int index)
     // If index < 0 then append to the menus_ vector
     if(index < 0)
     {
-        index = static_cast<int>(menus_.size());
+        index = menus_.size();
     }
 
     // Increase menus_ as needed
@@ -784,19 +787,23 @@ bool Page::isHorizontalScroll()
 
 void Page::pageScroll(ScrollDirection direction)
 {
-    for(std::vector<ScrollingList *>::iterator it = activeMenu_.begin(); it != activeMenu_.end(); it++)
+    if(activeMenu_.size() > 0 && activeMenu_[0])
     {
-        ScrollingList *menu = *it;
-        if(menu)
+        if(direction == ScrollDirectionForward)
         {
-            if(direction == ScrollDirectionForward)
-            {
-                menu->pageDown();
-            }
-            if(direction == ScrollDirectionBack)
-            {
-                menu->pageUp();
-            }
+            activeMenu_[0]->pageDown();
+        }
+        if(direction == ScrollDirectionBack)
+        {
+            activeMenu_[0]->pageUp();
+        }
+
+        unsigned int index = activeMenu_[0]->getScrollOffsetIndex();
+        for(std::vector<ScrollingList *>::iterator it = activeMenu_.begin(); it != activeMenu_.end(); it++)
+        {
+            ScrollingList *menu = *it;
+            if (menu)
+                menu->setScrollOffsetIndex(index);
         }
     }
 }
@@ -1114,7 +1121,7 @@ void Page::favPlaylist()
 void Page::nextPlaylist()
 {
     MenuInfo_S &info = collections_.back();
-    unsigned int numlists = static_cast<int>(info.collection->playlists.size());
+    unsigned int numlists = info.collection->playlists.size();
 
     for(unsigned int i = 0; i <= numlists; ++i)
     {
@@ -1138,7 +1145,7 @@ void Page::nextPlaylist()
 void Page::prevPlaylist()
 {
     MenuInfo_S &info = collections_.back();
-    unsigned int numlists = static_cast<int>(info.collection->playlists.size());
+    unsigned int numlists = info.collection->playlists.size();
 
     for(unsigned int i = 0; i <= numlists; ++i)
     {
@@ -1166,7 +1173,7 @@ void Page::selectPlaylist(std::string playlist)
 {
     MenuInfo_S &info = collections_.back();
     info.collection->Save();
-    unsigned int numlists = static_cast<int>(info.collection->playlists.size());
+    unsigned int numlists = info.collection->playlists.size();
 
     // Store current playlist
     CollectionInfo::Playlists_T::iterator playlist_store = playlist_;
@@ -1283,8 +1290,8 @@ void Page::update(float dt)
 
     if(textStatusComponent_)
     {
-    	std::string status;
-    	config_.setProperty("status", status);
+        std::string status;
+        config_.setProperty("status", status);
         textStatusComponent_->setText(status);
     }
 
@@ -1359,6 +1366,7 @@ void Page::removePlaylist()
     if(it != items->end())
     {
         items->erase(it);
+        selectedItem_->isFavorite = false;
         collection->sortPlaylists();
         collection->saveRequest = true;
     }
@@ -1377,10 +1385,22 @@ void Page::addPlaylist()
     if(playlist_->first != "favorites" && std::find(items->begin(), items->end(), selectedItem_) == items->end())
     {
         items->push_back(selectedItem_);
+        selectedItem_->isFavorite = true;
         collection->sortPlaylists();
         collection->saveRequest = true;
     }
     collection->Save();
+}
+
+
+void Page::togglePlaylist()
+{
+    if (!selectedItem_) return;
+
+    if (selectedItem_->isFavorite)
+        removePlaylist();
+    else
+        addPlaylist();
 }
 
 
@@ -1589,15 +1609,35 @@ bool Page::hasSubs()
 }
 
 
-int Page::getLayoutWidth()
+int Page::getLayoutWidth(int monitor)
 {
-	return layoutWidth_;
+    if ( monitor < SDL::getNumScreens( ) )
+        return layoutWidth_[monitor];
+    else
+        return 0;
 }
 
 
-int Page::getLayoutHeight()
+int Page::getLayoutHeight(int monitor)
 {
-	return layoutHeight_;
+    if ( monitor < SDL::getNumScreens( ) )
+        return layoutHeight_[monitor];
+    else
+        return 0;
+}
+
+
+void Page::setLayoutWidth(int monitor, int width)
+{
+    if ( monitor < SDL::getNumScreens( ) )
+        layoutWidth_[monitor] = width;
+}
+
+
+void Page::setLayoutHeight(int monitor, int height)
+{
+    if ( monitor < SDL::getNumScreens( ) )
+        layoutHeight_[monitor] = height;
 }
 
 

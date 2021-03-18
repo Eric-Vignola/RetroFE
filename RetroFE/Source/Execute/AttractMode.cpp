@@ -21,12 +21,14 @@
 AttractMode::AttractMode()
     : idleTime(0)
     , idleNextTime(0)
+    , idleMaxTime(0)
     , isActive_(false)
     , isSet_(false)
     , elapsedTime_(0)
     , elapsedPlaylistTime_(0)
     , elapsedCollectionTime_(0)
     , activeTime_(0)
+    , totalTime_(0)
 {
 }
 
@@ -34,10 +36,12 @@ void AttractMode::reset( bool set )
 {
     elapsedTime_ = 0;
     isActive_    = false;
+    isExit_      = false;
     isSet_       = set;
     activeTime_  = 0;
     if (!set)
     {
+        totalTime_             = 0;
         elapsedPlaylistTime_   = 0;
         elapsedCollectionTime_ = 0;
     }
@@ -47,6 +51,7 @@ int AttractMode::update(float dt, Page &page)
 {
 
     elapsedTime_           += dt;
+    totalTime_             += dt;
     elapsedPlaylistTime_   += dt;
     elapsedCollectionTime_ += dt;
 
@@ -57,7 +62,7 @@ int AttractMode::update(float dt, Page &page)
             isActive_    = true;
             isSet_       = true;
             elapsedTime_ = 0;
-            activeTime_  = ((float)((1000+rand()) % 5000)) / 1000;
+            activeTime_  = ((float)(minTime+(rand() % (maxTime-minTime)))) / 1000;
         }
     }
     else
@@ -80,6 +85,19 @@ int AttractMode::update(float dt, Page &page)
             return 2;
         }
     
+        // Force attract mode time out
+        if(!isActive_ && totalTime_ > idleMaxTime && idleMaxTime > 0)
+        {
+            isExit_                = true;
+            isActive_              = false;
+            isSet_                 = false;
+            elapsedTime_           = 0;
+            elapsedPlaylistTime_   = 0;
+            elapsedCollectionTime_ = 0;
+            totalTime_             = 0;
+            return 3;
+        }
+            
         // enable attract mode when idling for the expected time. Disable if idle time is set to 0.
         if(!isActive_ && ((elapsedTime_ > idleTime && idleTime > 0) || (isSet_ && elapsedTime_ > idleNextTime && idleNextTime > 0)))
         {
@@ -88,7 +106,7 @@ int AttractMode::update(float dt, Page &page)
             isActive_    = true;
             isSet_       = true;
             elapsedTime_ = 0;
-            activeTime_  = ((float)((1000+rand()) % 5000)) / 1000;
+            activeTime_  = ((float)(minTime+(rand() % (maxTime-minTime)))) / 1000;
         }
 
     }
@@ -124,4 +142,15 @@ bool AttractMode::isActive()
 bool AttractMode::isSet()
 {
     return isSet_;
+}
+
+
+bool AttractMode::isExit()
+{
+    return isExit_;
+}
+
+float AttractMode::getTotal()
+{
+    return totalTime_;    
 }

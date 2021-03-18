@@ -304,15 +304,10 @@ bool CollectionInfoBuilder::ImportDirectory(CollectionInfo *info, std::string me
     if (emuarc)
         romHierarchy = true;
 
-    // If no merged file exists, or it is empty, attempt to use the include and exclude from the subcollection
-    // If this not a merged collection, the size will be 0 anyways and the code below will still execute
-    if (includeFilter.size() == 0)
-    {
-        Logger::write(Logger::ZONE_INFO, "CollectionInfoBuilder", "Checking for \"" + includeFile + "\"");
-        ImportBasicList(info, includeFile, includeFilterUnsorted);
-        ImportBasicList(info, includeFile, includeFilter);
-        ImportBasicList(info, excludeFile, excludeFilter);
-    }
+    Logger::write(Logger::ZONE_INFO, "CollectionInfoBuilder", "Checking for \"" + includeFile + "\"");
+    ImportBasicList(info, includeFile, includeFilterUnsorted);
+    ImportBasicList(info, includeFile, includeFilter);
+    ImportBasicList(info, excludeFile, excludeFilter);
 
     if (showMissing)
     {
@@ -434,7 +429,7 @@ void CollectionInfoBuilder::addPlaylists(CollectionInfo *info)
         std::string basename = (std::string::npos == position)? file : file.substr(0, position);
 
         std::string comparator = ".txt";
-        int start = static_cast<int>(file.length() - comparator.length());
+        int start = file.length() - comparator.length();
 
         if(start >= 0)
         {
@@ -469,6 +464,8 @@ void CollectionInfoBuilder::addPlaylists(CollectionInfo *info)
                         if ( ((*it)->name == itemName || itemName == "*") && (*it)->collectionInfo->name == collectionName )
                         {
                             info->playlists[basename]->push_back((*it));
+                            if ( basename == "favorites" )
+                                (*it)->isFavorite = true;
                         }
                     }
                 }
@@ -652,7 +649,7 @@ void CollectionInfoBuilder::ImportRomDirectory(std::string path, CollectionInfo 
                 for(extensionsIt = extensions.begin(); extensionsIt != extensions.end(); ++extensionsIt)
                 {
                     std::string comparator = "." + *extensionsIt;
-                    int start = static_cast<int>(file.length() - comparator.length()) + 1;
+                    int start = file.length() - comparator.length() + 1;
 
                     if (start >= 0)
                     {

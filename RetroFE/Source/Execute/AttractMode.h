@@ -25,16 +25,23 @@ public:
     int   update(float dt, Page &page);
     float idleTime;
     float idleNextTime;
+    float idleMaxTime;
     float idlePlaylistTime;
     float idleCollectionTime;
+    int   minTime;
+    int   maxTime;
     bool  isActive();
     bool  isSet();
+    bool  isExit();
+    float getTotal();
 
 private:
     bool isActive_;
     bool isSet_;
+    bool isExit_;
     float elapsedTime_;
     float elapsedPlaylistTime_;
     float elapsedCollectionTime_;
     float activeTime_;
+    float totalTime_;
 };
